@@ -20,13 +20,16 @@ class HomeController extends GetxController {
     super.onInit();
   }
 
-  RxString playingVideo = ''.obs;
+  RxString playingVideoUrl = ''.obs;
   RxBool loadingMainVideo = false.obs;
   RxBool bufferMainVideo = false.obs;
   RxBool videoPlaying = false.obs;
 
   void videoInitial({required VideoListUIModel video}) {
-    if (playingVideo.value == video.videoUrl) {
+    if(bufferMainVideo.value && playingVideoUrl.value == video.videoUrl){
+      return;
+    }
+    if (playingVideoUrl.value == video.videoUrl) {
       if (videoController.value.isPlaying) {
         videoController.pause();
         videoPlaying.value = false;
@@ -36,7 +39,7 @@ class HomeController extends GetxController {
       }
       return;
     }
-    playingVideo.value = video.videoUrl;
+    playingVideoUrl.value = video.videoUrl;
     loadingMainVideo.value = true;
     videoController.dispose();
 

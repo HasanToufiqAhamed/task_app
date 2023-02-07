@@ -15,7 +15,7 @@ class VideoListTile extends StatefulWidget {
   final VideoListUIModel video;
   final Function() onTap;
 
-  VideoListTile({
+  const VideoListTile({
     Key? key,
     required this.video,
     required this.onTap,
@@ -74,12 +74,7 @@ class _VideoListTileState extends State<VideoListTile> {
           ClipRRect(
             borderRadius: 30.circularRadius,
             child: InkWell(
-              onTap: (){
-                if(controller.bufferMainVideo.value){
-                  return;
-                }
-                widget.onTap.call();
-              },
+              onTap: widget.onTap,
               child: ConstrainedBox(
                 constraints: BoxConstraints(
                   minHeight: Get.width / 2,
@@ -89,9 +84,7 @@ class _VideoListTileState extends State<VideoListTile> {
                 ),
                 child: Obx(
                   () {
-                    if (controller.playingVideo.value ==
-                            widget.video.videoUrl &&
-                        controller.loadingMainVideo.value) {
+                    if (controller.playingVideoUrl.value == widget.video.videoUrl && controller.loadingMainVideo.value) {
                       return const MainLoader();
                     }
                     if (controller.videoController.dataSource ==
