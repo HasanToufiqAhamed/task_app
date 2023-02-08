@@ -1,16 +1,18 @@
 import 'dart:convert';
 
+import 'package:task_app/domain/core/interface/service/video_service_interface.dart';
 import 'package:task_app/domain/repo_services/services/video/model/video_list_response.dart';
 
 import '../../../core/abstractions/http_connect.interface.dart';
 import '../../../core/exceptions/default.exception.dart';
 import '../../../core/exceptions/invalid_token.exception.dart';
 
-class VideoNetworkService {
+class VideoNetworkService extends IVideoRepositoryService{
   final IHttpConnect _connect;
 
-  const VideoNetworkService(IHttpConnect connect) : _connect = connect;
+  VideoNetworkService(IHttpConnect connect) : _connect = connect;
 
+  @override
   Future<VideoListResponse> getVideos() async {
     try {
       final response = await _connect.get<VideoListResponse>(

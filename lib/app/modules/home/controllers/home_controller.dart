@@ -39,15 +39,14 @@ class HomeController extends GetxController {
       }
       return;
     }
+    videoController.dispose();
     playingVideoUrl.value = video.videoUrl;
     loadingMainVideo.value = true;
-    videoController.dispose();
 
     videoController = VideoPlayerController.network(
       video.videoUrl,
     )..initialize().then((v) {
-        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-        print('video inisialize-----------> ${videoController.dataSource}');
+        debugPrint('video initialize-----------> ${videoController.dataSource}');
         loadingMainVideo.value = false;
         videoController.play();
         videoPlaying.value = true;

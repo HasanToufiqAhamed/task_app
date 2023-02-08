@@ -14,7 +14,7 @@ class VideoRepositoryBindings {
     final Connect connect = Connect(connect: getConnect);
     final videoNetworkService = VideoNetworkService(connect);
     _videoRepository = VideoRepository(
-      videoNetworkService: videoNetworkService,
+      service: videoNetworkService,
     );
   }
 }

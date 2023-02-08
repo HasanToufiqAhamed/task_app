@@ -1,19 +1,21 @@
+import 'package:task_app/domain/core/interface/repository/video_repository_interface.dart';
 import 'package:task_app/domain/core/model/video/video_list.ui.dart';
 
+import '../../core/interface/service/video_service_interface.dart';
 import '../../repo_services/services/video/model/video_list_response.dart';
-import '../../repo_services/services/video/video_service_network.dart';
 
-class VideoRepository {
-  final VideoNetworkService _videoNetworkService;
+class VideoRepository extends IVideoRepository {
+  final IVideoRepositoryService _service;
 
   VideoRepository({
-    required VideoNetworkService videoNetworkService,
-  }) : _videoNetworkService = videoNetworkService;
+    required IVideoRepositoryService service,
+  }) : _service = service;
 
+  @override
   Future<List<VideoListUIModel>> getAllVideos() async {
     try {
       List<VideoListUIModel> list = [];
-      VideoListResponse response = await _videoNetworkService.getVideos();
+      VideoListResponse response = await _service.getVideos();
 
       for (var val in response.data!) {
         VideoListUIModel video = VideoListUIModel(

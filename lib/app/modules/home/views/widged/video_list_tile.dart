@@ -3,29 +3,24 @@ import 'package:get/get.dart';
 import 'package:task_app/app/data/config/app_color.dart';
 import 'package:task_app/app/data/config/app_dimens.dart';
 import 'package:task_app/app/modules/home/views/widged/app_bar_button.dart';
-import 'package:task_app/app/modules/utilities/c_widgets/main_loader.dart';
-import 'package:task_app/app/modules/utilities/extensions/date.extensions.dart';
-import 'package:task_app/app/modules/utilities/extensions/widget.extensions.dart';
+import 'package:task_app/app/utilities/extensions/date.extensions.dart';
+import 'package:task_app/app/utilities/extensions/widget.extensions.dart';
 import 'package:task_app/domain/core/model/video/video_list.ui.dart';
 import 'package:video_player/video_player.dart';
 
+import '../../../../utilities/c_widgets/main_loader.dart';
 import '../../controllers/home_controller.dart';
 
-class VideoListTile extends StatefulWidget {
+class VideoListTile extends StatelessWidget {
   final VideoListUIModel video;
   final Function() onTap;
 
-  const VideoListTile({
+  VideoListTile({
     Key? key,
     required this.video,
     required this.onTap,
   }) : super(key: key);
 
-  @override
-  State<VideoListTile> createState() => _VideoListTileState();
-}
-
-class _VideoListTileState extends State<VideoListTile> {
   HomeController controller = Get.find();
 
   @override
@@ -54,14 +49,14 @@ class _VideoListTileState extends State<VideoListTile> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  widget.video.caption.capitalizeFirst ?? '',
+                  video.caption.capitalizeFirst ?? '',
                   style: const TextStyle(
                     fontSize: 15,
                   ),
                 ),
                 4.verticalSpacing,
                 Text(
-                  widget.video.createdAt.hh_mm_a,
+                  video.createdAt.hh_mm_a,
                   style: const TextStyle(
                     fontSize: 15,
                     color: AppColor.videoListTitleColor,
@@ -74,7 +69,7 @@ class _VideoListTileState extends State<VideoListTile> {
           ClipRRect(
             borderRadius: 30.circularRadius,
             child: InkWell(
-              onTap: widget.onTap,
+              onTap: onTap,
               child: ConstrainedBox(
                 constraints: BoxConstraints(
                   minHeight: Get.width / 2,
@@ -84,11 +79,11 @@ class _VideoListTileState extends State<VideoListTile> {
                 ),
                 child: Obx(
                   () {
-                    if (controller.playingVideoUrl.value == widget.video.videoUrl && controller.loadingMainVideo.value) {
+                    if (controller.playingVideoUrl.value == video.videoUrl && controller.loadingMainVideo.value) {
                       return const MainLoader();
                     }
                     if (controller.videoController.dataSource ==
-                        widget.video.videoUrl) {
+                        video.videoUrl) {
                       return Stack(
                         alignment: Alignment.center,
                         children: [
